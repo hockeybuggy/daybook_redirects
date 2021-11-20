@@ -7,7 +7,7 @@ daily task list "system").
 
 ## TODO
 
-- [ ] Generate links in index
+- [ ] Setup workflow for rebuilding
 
 - [ ] Links
   - [X] Today
@@ -21,6 +21,7 @@ daily task list "system").
 
 - [ ] CI
   - [ ] Linting?
+  - [ ] Tests?
 
 - Fancy
   - [ ] Icon

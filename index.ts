@@ -13,7 +13,16 @@ if (!notionToken) {
 // Initializing a client
 const notion = new Client({ auth: notionToken });
 
-async function generateIndexPage(buildDir: string) {
+async function generateIndexPage(
+  buildDir: string,
+  links: Array<{ name: string; url: string }>
+) {
+  const linksUl = links.reduce((acc, curr) => {
+    console.log(acc);
+    const link = `<li><a href="${curr.url}">${curr.name}</a></li>\n`;
+    return acc + link;
+  }, "");
+
   const contents = `
 <!DOCTYPE html>
 <head>
@@ -23,7 +32,9 @@ async function generateIndexPage(buildDir: string) {
 <body>
   <h1>Daybook Redirects</h1>
 
-  <p>TODO list all of the urls</p>
+  <ul>
+    ${linksUl}
+  </ul>
 </body>
 `;
   console.log("Generating Index page.");
@@ -59,22 +70,37 @@ async function fetchAndWriteRedirect(
   fs.writeFileSync(`${buildDir}/${name}.html`, contents);
 }
 
-async function generateTodayPage(buildDir: string, now: Date) {
+async function generateTodayPage(
+  buildDir: string,
+  now: Date
+): Promise<{ name: string; url: string }> {
   const name = "today";
   const todayStr = format(now, "yyyy-MM-dd");
   fetchAndWriteRedirect(buildDir, name, todayStr);
+
+  return { name, url: `./${name}.html` };
 }
 
-async function generateYesterdayPage(buildDir: string, now: Date) {
+async function generateYesterdayPage(
+  buildDir: string,
+  now: Date
+): Promise<{ name: string; url: string }> {
   const name = "yesterday";
   const todayStr = format(subDays(now, 1), "yyyy-MM-dd");
   fetchAndWriteRedirect(buildDir, name, todayStr);
+
+  return { name, url: `./${name}.html` };
 }
 
-async function generateTomorrowPage(buildDir: string, now: Date) {
+async function generateTomorrowPage(
+  buildDir: string,
+  now: Date
+): Promise<{ name: string; url: string }> {
   const name = "tomorrow";
   const todayStr = format(addDays(now, 1), "yyyy-MM-dd");
   fetchAndWriteRedirect(buildDir, name, todayStr);
+
+  return { name, url: `./${name}.html` };
 }
 
 (async () => {
@@ -91,9 +117,10 @@ async function generateTomorrowPage(buildDir: string, now: Date) {
   }
   fs.mkdirSync(buildDir);
 
-  await generateIndexPage(buildDir);
-  await generateYesterdayPage(buildDir, now);
-  await generateTodayPage(buildDir, now);
-  await generateTomorrowPage(buildDir, now);
+  const pages = [];
+  pages.push(await generateYesterdayPage(buildDir, now));
+  pages.push(await generateTodayPage(buildDir, now));
+  pages.push(await generateTomorrowPage(buildDir, now));
+  await generateIndexPage(buildDir, pages);
   console.log("Done");
 })();
