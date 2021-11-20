@@ -8,7 +8,7 @@ on:
     inputs:
       logLevel:
         description: 'Log level'
-        required: true
+        required: false
         default: 'info'
 
 jobs:

@@ -112,7 +112,7 @@ async function generateTomorrowPage(
   const buildDir = "./build";
   console.log(`Setting up build directory: ${buildDir}`);
   if (fs.existsSync(buildDir)) {
-    fs.rmdirSync(buildDir, { recursive: true });
+    fs.rmSync(buildDir, { recursive: true });
   }
   fs.mkdirSync(buildDir);
 
