@@ -18,6 +18,9 @@ Setup env:
 
 - [ ] Document
     - What does this do
+        Once a day this project is rebuilt. Each time it generates pages, when
+        loaded, will redirect to a specific notion page. This pages have a
+        specific name pattern of yyyy-MM-dd.
     - Clone repo
     - How to generate Notion API key 
     - How to setup Netlify
