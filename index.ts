@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import fs from "fs-extra";
 import { addDays, format, subDays } from "date-fns";
 import { Client } from "@notionhq/client";
 
@@ -27,6 +27,13 @@ async function generateIndexPage(
 <head>
 <meta charset="utf-8">
 <title>Daybook redirects</title>
+
+<style>
+  body {
+    font-family: Courier, sans-serif;
+  }
+</style>
+
 </head>
 <body>
   <h1>Daybook Redirects</h1>
@@ -121,5 +128,9 @@ async function generateTomorrowPage(
   pages.push(await generateTodayPage(buildDir, now));
   pages.push(await generateTomorrowPage(buildDir, now));
   await generateIndexPage(buildDir, pages);
+
+  console.log("Copying static files into build directory");
+  fs.copySync("./static", buildDir);
+
   console.log("Done");
 })();

@@ -126,6 +126,9 @@ Add a new New repository secret:
   - [ ] Linting?
   - [ ] Tests?
 
+- Notion request caching
+  - I don't feel like every build needs to fetch fresh each time by default.
+
 - Fancy
   - [ ] Icon
   - [ ] Nicer looking home page
