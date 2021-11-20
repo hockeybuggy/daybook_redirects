@@ -23,8 +23,7 @@ Setup env:
     - How to setup Netlify
         - Env: Notion API key
     - Configure GitHub
-        - Create env (called mine "prod")
-        - protect to `main`
+        - New repository secret
         - Add secret: name: NETLIFY_BUILD_HOOK value: from creating the build hook
     - How to setup Netlify
         - Env: Notion API key
