@@ -10,18 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 14.17.3
-
-    - name: Install
-      run: |
-        yarn install
-
-    - name: Build
-      env:
-        CI: true
-      run: |
-        yarn run start
+      - name: Trigger Netlify build
+        env:
+          BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: curl -X POST -d {} $env:BUILD_HOOK
