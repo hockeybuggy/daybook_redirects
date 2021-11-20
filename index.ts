@@ -27,6 +27,7 @@ async function generateIndexPage(
 <head>
 <meta charset="utf-8">
 <title>Daybook redirects</title>
+<link rel="shortcut icon" type="image/png" href="favicon.png"/>
 
 <style>
   body {
