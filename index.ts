@@ -4,10 +4,15 @@ import { Client } from "@notionhq/client";
 
 require("dotenv").config();
 
+// TODO add a env var guard for `NOTION_TOKEN`. Fail when not there.
+const notionToken = process.env.NOTION_TOKEN;
+if (!notionToken) {
+  console.error("Error. Could not find value for env var NOTION_TOKEN");
+  process.exit(1);
+}
+
 // Initializing a client
-const notion = new Client({
-  auth: process.env.NOTION_TOKEN,
-});
+const notion = new Client({ auth: notionToken });
 
 async function generateIndexPage(buildDir: string) {
   const contents = `
