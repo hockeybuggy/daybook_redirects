@@ -54,6 +54,7 @@ function generateRedirectPage(name: string, targetUrl: string) {
 <meta charset="utf-8">
 <title>Redirecting to ${name}: ${targetUrl}</title>
 <meta http-equiv="refresh" content="0; URL=${targetUrl}">
+<link rel="shortcut icon" type="image/png" href="favicon.png"/>
 <link rel="canonical" href="${targetUrl}">
 `;
 }
