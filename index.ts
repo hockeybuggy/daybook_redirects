@@ -18,7 +18,6 @@ async function generateIndexPage(
   links: Array<{ name: string; url: string }>
 ) {
   const linksUl = links.reduce((acc, curr) => {
-    console.log(acc);
     const link = `<li><a href="${curr.url}">${curr.name}</a></li>\n`;
     return acc + link;
   }, "");

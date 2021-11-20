@@ -9,6 +9,8 @@ daily task list "system").
 
 - [ ] Setup workflow for rebuilding
 
+- [ ] Set Node version
+
 - [ ] Links
   - [X] Today
   - [X] Yesterday
