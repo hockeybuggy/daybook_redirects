@@ -36,7 +36,7 @@ async function generateIndexPage(
   </ul>
 </body>
 `;
-  console.log("Generating Index page.");
+  console.log("Generating index page.");
   fs.writeFileSync(`${buildDir}/index.html`, contents);
 }
 
