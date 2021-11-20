@@ -17,5 +17,8 @@ jobs:
 
     steps:
       - name: Trigger Netlify build
+        env:
+          BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
         run:
-          - curl -X POST -d {} ${{ secrets.NETLIFY_BUILD_HOOK }}
+          - echo $env:BUILD_HOOK
+          - curl -X POST -d {} "$env:BUILD_HOOK"
