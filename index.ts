@@ -1,5 +1,5 @@
 import fs from "fs-extra";
-import { addDays, format, subDays } from "date-fns";
+import { addDays, format, formatISO9075, subDays } from "date-fns";
 import { Client } from "@notionhq/client";
 
 require("dotenv").config();
@@ -13,20 +13,12 @@ if (!notionToken) {
 // Initializing a client
 const notion = new Client({ auth: notionToken });
 
-async function generateIndexPage(
-  buildDir: string,
-  links: Array<{ name: string; url: string }>
-) {
-  const linksUl = links.reduce((acc, curr) => {
-    const link = `<li><a href="${curr.url}">${curr.name}</a></li>\n`;
-    return acc + link;
-  }, "");
-
-  const contents = `
+function fromBaseTemplate(now: Date, body: string) {
+  return `
 <!DOCTYPE html>
 <head>
 <meta charset="utf-8">
-<title>Daybook redirects</title>
+<title>Daybook redirects - Not Found</title>
 <link rel="shortcut icon" type="image/png" href="favicon.png"/>
 
 <style>
@@ -36,14 +28,58 @@ async function generateIndexPage(
 </style>
 
 </head>
-<body>
-  <h1>Daybook Redirects</h1>
 
-  <ul>
-    ${linksUl}
-  </ul>
+<body>
+  <main>
+    ${body}
+  </main>
+
+  <footer>
+    <p><em>Updated: ${formatISO9075(now)}</em></p>
+  <footer>
 </body>
 `;
+}
+
+async function generateNotFoundPage(buildDir: string, now: Date) {
+  const contents = fromBaseTemplate(
+    now,
+    `
+      <h1>Daybook Redirects - Not found</h1>
+
+      <p>
+        <a href="https://app.netlify.com/sites/daybook-redirects/deploys?filter=main">
+          Whoops? Something  wrong with the build?
+        </a>
+      </p>
+      );
+    `
+  );
+
+  console.log("Generating not-found page.");
+  fs.writeFileSync(`${buildDir}/not-found.html`, contents);
+}
+
+async function generateIndexPage(
+  buildDir: string,
+  now: Date,
+  links: Array<{ name: string; url: string }>
+) {
+  const linksUl = links.reduce((acc, curr) => {
+    const link = `<li><a href="${curr.url}">${curr.name}</a></li>\n`;
+    return acc + link;
+  }, "");
+
+  const contents = fromBaseTemplate(
+    now,
+    `
+      <h1>Daybook Redirects</h1>
+
+      <ul>
+        ${linksUl}
+      </ul>
+    `
+  );
   console.log("Generating index page.");
   fs.writeFileSync(`${buildDir}/index.html`, contents);
 }
@@ -129,7 +165,8 @@ async function generateTomorrowPage(
   pages.push(await generateYesterdayPage(buildDir, now));
   pages.push(await generateTodayPage(buildDir, now));
   pages.push(await generateTomorrowPage(buildDir, now));
-  await generateIndexPage(buildDir, pages);
+  await generateNotFoundPage(buildDir, now);
+  await generateIndexPage(buildDir, now, pages);
 
   console.log("Copying static files into build directory");
   fs.copySync("./static", buildDir);
