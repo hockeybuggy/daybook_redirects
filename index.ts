@@ -1,5 +1,5 @@
 import fs from "fs-extra";
-import { addDays, format, formatISO9075, subDays } from "date-fns";
+import { addDays, format, formatISO9075, getISODay, subDays } from "date-fns";
 import { Client } from "@notionhq/client";
 
 require("dotenv").config();
@@ -161,6 +161,81 @@ async function generateTomorrowPage(
   return { name, url: `./${name}.html` };
 }
 
+const dayOfWeekMap = {
+  Mon: 1,
+  Tue: 2,
+  Wed: 3,
+  Thur: 4,
+  Fri: 5,
+  Sat: 6,
+  Sun: 7,
+};
+
+async function generateNextMondayPage(
+  buildDir: string,
+  now: Date
+): Promise<{ name: string; url: string }> {
+  const name = "next-monday";
+  const offsetDays = 7 - (getISODay(now) - dayOfWeekMap["Mon"]);
+  const day = addDays(now, offsetDays);
+  fetchAndWriteRedirect(buildDir, name, format(day, "yyyy-MM-dd"));
+
+  return { name, url: `./${name}.html` };
+}
+
+async function generateThisWeekendPage(
+  buildDir: string,
+  now: Date
+): Promise<{ name: string; url: string }> {
+  const name = "this-weekend";
+  let offsetDays: number;
+  if (getISODay(now) === dayOfWeekMap["Sat"]) {
+    offsetDays = 0;
+  } else if (getISODay(now) === dayOfWeekMap["Sun"]) {
+    offsetDays = 1;
+  } else {
+    offsetDays = 7 - (getISODay(now) - dayOfWeekMap["Sat"]);
+  }
+  const day = addDays(now, offsetDays);
+  fetchAndWriteRedirect(buildDir, name, format(day, "yyyy-MM-dd"));
+
+  return { name, url: `./${name}.html` };
+}
+
+async function generateNextWeekendPage(
+  buildDir: string,
+  now: Date
+): Promise<{ name: string; url: string }> {
+  const name = "next-weekend";
+  if (
+    getISODay(now) !== dayOfWeekMap["Sat"] &&
+    getISODay(now) !== dayOfWeekMap["Sun"]
+  ) {
+    // This only generates if it's the weekend.
+    return null;
+  }
+
+  const offsetDays = 7 - (getISODay(now) - dayOfWeekMap["Sun"]);
+  const day = addDays(now, offsetDays);
+  fetchAndWriteRedirect(buildDir, name, format(day, "yyyy-MM-dd"));
+
+  return { name, url: `./${name}.html` };
+}
+
+async function generateLastFriday(
+  buildDir: string,
+  now: Date
+): Promise<{ name: string; url: string }> {
+  const name = "last-friday";
+  console.log(getISODay(now));
+  const offsetDays = -(getISODay(now) - dayOfWeekMap["Fri"]);
+  const day = addDays(now, offsetDays);
+  console.log(offsetDays, day);
+  fetchAndWriteRedirect(buildDir, name, format(day, "yyyy-MM-dd"));
+
+  return { name, url: `./${name}.html` };
+}
+
 (async () => {
   const now = new Date();
   console.log(`Running at: ${now}`);
@@ -179,6 +254,14 @@ async function generateTomorrowPage(
   pages.push(await generateYesterdayPage(buildDir, now));
   pages.push(await generateTodayPage(buildDir, now));
   pages.push(await generateTomorrowPage(buildDir, now));
+  pages.push(await generateNextMondayPage(buildDir, now));
+  pages.push(await generateThisWeekendPage(buildDir, now));
+  const nextWeekend = await generateNextWeekendPage(buildDir, now);
+  if (nextWeekend) {
+    pages.push(nextWeekend);
+  }
+  pages.push(await generateLastFriday(buildDir, now));
+
   await generateNotFoundPage(buildDir, now);
   await generateIndexPage(buildDir, now, pages);
 

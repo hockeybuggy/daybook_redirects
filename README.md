@@ -114,14 +114,6 @@ Add a new New repository secret:
 
 ## TODO
 
-- [ ] Links
-  - [X] Today
-  - [X] Yesterday
-  - [X] Tomorrow
-  - [ ] Next Monday
-  - [ ] Last Friday
-  - [ ] This weekend
-
 - [ ] CI
   - [ ] Linting?
   - [ ] Tests?
