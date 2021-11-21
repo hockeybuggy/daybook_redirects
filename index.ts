@@ -2,6 +2,7 @@ import fs from "fs-extra";
 import { addDays, format, formatISO9075, getISODay, subDays } from "date-fns";
 import { Client } from "@notionhq/client";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require("dotenv").config();
 
 const notionToken = process.env.NOTION_TOKEN;

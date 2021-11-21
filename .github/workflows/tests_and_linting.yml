@@ -1,0 +1,36 @@
+name: typecheck and linting
+
+on: [push]
+
+jobs:
+  typecheck-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16.3.0
+
+    - name: Install
+      run: |
+        yarn install
+
+    - name: Check Types
+      run: |
+        yarn run typecheck
+
+    - name: Test
+      env:
+        CI: true
+      run: |
+        yarn run test
+
+    - name: Linting
+      run: |
+        yarn run lint
+
+    - name: Check Formatting
+      run: |
+        yarn run check-format

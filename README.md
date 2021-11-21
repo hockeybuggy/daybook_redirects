@@ -86,6 +86,15 @@ This project should be able to be run locally with:
 yarn run build
 ```
 
+There are a few other commands:
+
+```
+yarn run test
+yarn run lint
+yarn run format
+yarn run clean
+```
+
 
 ### 4. Setup Netlify
 
