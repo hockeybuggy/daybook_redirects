@@ -129,10 +129,9 @@ Add a new New repository secret:
 - Notion request caching
   - I don't feel like every build needs to fetch fresh each time by default.
 
+- Dependencies updating
+
 - Fancy
-  - [ ] Icon
-  - [ ] Nicer looking home page
-  - [ ] 404 page
   - [ ] Warnings if a page can't be built
 
 - Way to create link to create bookmarks?

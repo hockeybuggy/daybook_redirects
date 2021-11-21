@@ -16,15 +16,28 @@ const notion = new Client({ auth: notionToken });
 function fromBaseTemplate(now: Date, body: string) {
   return `
 <!DOCTYPE html>
+
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Daybook redirects - Not Found</title>
 <link rel="shortcut icon" type="image/png" href="favicon.png"/>
 
 <style>
-  body {
-    font-family: Courier, sans-serif;
+  html {
+    height: 100%;
   }
+
+  body {
+    height: 100%;
+
+    font-family: Courier, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  main
 </style>
 
 </head>
@@ -38,6 +51,7 @@ function fromBaseTemplate(now: Date, body: string) {
     <p><em>Updated: ${formatISO9075(now)}</em></p>
   <footer>
 </body>
+</html>
 `;
 }
 
