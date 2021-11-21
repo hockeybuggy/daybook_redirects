@@ -25,6 +25,6 @@
     "check-format": "prettier --check \"*.ts*\"",
     "typecheck": "tsc -p . --skipLibCheck",
     "test": "echo 'No tests currently'",
-    "clean": "rm -r node_modules build"
+    "clean": "rm -r node_modules build dist"
   }
 }
