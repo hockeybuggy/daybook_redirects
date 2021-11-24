@@ -14,6 +14,18 @@ if (!notionToken) {
 // Initializing a client
 const notion = new Client({ auth: notionToken });
 
+interface Page {
+  name: string;
+  url: string;
+}
+
+interface PageGenerationError {
+  msg: string;
+  error: Error;
+}
+
+type Result<T> = T | PageGenerationError;
+
 function fromBaseTemplate(now: Date, body: string) {
   return `
 <!DOCTYPE html>
@@ -132,10 +144,14 @@ async function fetchAndWriteRedirect(
 async function generateTodayPage(
   buildDir: string,
   now: Date
-): Promise<{ name: string; url: string }> {
+): Promise<Result<Page>> {
   const name = "today";
   const todayStr = format(now, "yyyy-MM-dd");
-  fetchAndWriteRedirect(buildDir, name, todayStr);
+  try {
+    await fetchAndWriteRedirect(buildDir, name, todayStr);
+  } catch (e) {
+    return { msg: `Could not generate ${name} page`, error: e };
+  }
 
   return { name, url: `./${name}.html` };
 }
@@ -143,10 +159,14 @@ async function generateTodayPage(
 async function generateYesterdayPage(
   buildDir: string,
   now: Date
-): Promise<{ name: string; url: string }> {
+): Promise<Result<Page>> {
   const name = "yesterday";
   const todayStr = format(subDays(now, 1), "yyyy-MM-dd");
-  fetchAndWriteRedirect(buildDir, name, todayStr);
+  try {
+    await fetchAndWriteRedirect(buildDir, name, todayStr);
+  } catch (e) {
+    return { msg: `Could not generate ${name} page`, error: e };
+  }
 
   return { name, url: `./${name}.html` };
 }
@@ -154,10 +174,14 @@ async function generateYesterdayPage(
 async function generateTomorrowPage(
   buildDir: string,
   now: Date
-): Promise<{ name: string; url: string }> {
+): Promise<Result<Page>> {
   const name = "tomorrow";
   const todayStr = format(addDays(now, 1), "yyyy-MM-dd");
-  fetchAndWriteRedirect(buildDir, name, todayStr);
+  try {
+    await fetchAndWriteRedirect(buildDir, name, todayStr);
+  } catch (e) {
+    return { msg: `Could not generate ${name} page`, error: e };
+  }
 
   return { name, url: `./${name}.html` };
 }
@@ -175,11 +199,15 @@ const dayOfWeekMap = {
 async function generateNextMondayPage(
   buildDir: string,
   now: Date
-): Promise<{ name: string; url: string }> {
+): Promise<Result<Page>> {
   const name = "next-monday";
   const offsetDays = 7 - (getISODay(now) - dayOfWeekMap["Mon"]);
   const day = addDays(now, offsetDays);
-  fetchAndWriteRedirect(buildDir, name, format(day, "yyyy-MM-dd"));
+  try {
+    await fetchAndWriteRedirect(buildDir, name, format(day, "yyyy-MM-dd"));
+  } catch (e) {
+    return { msg: `Could not generate ${name} page`, error: e };
+  }
 
   return { name, url: `./${name}.html` };
 }
@@ -187,7 +215,7 @@ async function generateNextMondayPage(
 async function generateThisWeekendPage(
   buildDir: string,
   now: Date
-): Promise<{ name: string; url: string }> {
+): Promise<Result<Page>> {
   const name = "this-weekend";
   let offsetDays: number;
   if (getISODay(now) === dayOfWeekMap["Sat"]) {
@@ -198,7 +226,11 @@ async function generateThisWeekendPage(
     offsetDays = 7 - (getISODay(now) - dayOfWeekMap["Sat"]);
   }
   const day = addDays(now, offsetDays);
-  fetchAndWriteRedirect(buildDir, name, format(day, "yyyy-MM-dd"));
+  try {
+    await fetchAndWriteRedirect(buildDir, name, format(day, "yyyy-MM-dd"));
+  } catch (e) {
+    return { msg: `Could not generate ${name} page`, error: e };
+  }
 
   return { name, url: `./${name}.html` };
 }
@@ -206,7 +238,7 @@ async function generateThisWeekendPage(
 async function generateNextWeekendPage(
   buildDir: string,
   now: Date
-): Promise<{ name: string; url: string }> {
+): Promise<Result<Page>> {
   const name = "next-weekend";
   if (
     getISODay(now) !== dayOfWeekMap["Sat"] &&
@@ -218,7 +250,11 @@ async function generateNextWeekendPage(
 
   const offsetDays = 7 - (getISODay(now) - dayOfWeekMap["Sun"]);
   const day = addDays(now, offsetDays);
-  fetchAndWriteRedirect(buildDir, name, format(day, "yyyy-MM-dd"));
+  try {
+    await fetchAndWriteRedirect(buildDir, name, format(day, "yyyy-MM-dd"));
+  } catch (e) {
+    return { msg: `Could not generate ${name} page`, error: e };
+  }
 
   return { name, url: `./${name}.html` };
 }
@@ -226,13 +262,15 @@ async function generateNextWeekendPage(
 async function generateLastFriday(
   buildDir: string,
   now: Date
-): Promise<{ name: string; url: string }> {
+): Promise<Result<Page>> {
   const name = "last-friday";
-  console.log(getISODay(now));
   const offsetDays = -(getISODay(now) - dayOfWeekMap["Fri"]);
   const day = addDays(now, offsetDays);
-  console.log(offsetDays, day);
-  fetchAndWriteRedirect(buildDir, name, format(day, "yyyy-MM-dd"));
+  try {
+    await fetchAndWriteRedirect(buildDir, name, format(day, "yyyy-MM-dd"));
+  } catch (e) {
+    return { msg: `Could not generate ${name} page`, error: e };
+  }
 
   return { name, url: `./${name}.html` };
 }
@@ -251,17 +289,22 @@ async function generateLastFriday(
   }
   fs.mkdirSync(buildDir);
 
-  const pages = [];
-  pages.push(await generateYesterdayPage(buildDir, now));
-  pages.push(await generateTodayPage(buildDir, now));
-  pages.push(await generateTomorrowPage(buildDir, now));
-  pages.push(await generateNextMondayPage(buildDir, now));
-  pages.push(await generateThisWeekendPage(buildDir, now));
-  const nextWeekend = await generateNextWeekendPage(buildDir, now);
-  if (nextWeekend) {
-    pages.push(nextWeekend);
-  }
-  pages.push(await generateLastFriday(buildDir, now));
+  const results = [];
+  results.push(await generateYesterdayPage(buildDir, now));
+  results.push(await generateTodayPage(buildDir, now));
+  results.push(await generateTomorrowPage(buildDir, now));
+  results.push(await generateNextMondayPage(buildDir, now));
+  results.push(await generateThisWeekendPage(buildDir, now));
+  results.push(await generateNextWeekendPage(buildDir, now));
+  results.push(await generateLastFriday(buildDir, now));
+
+  const pages = results.filter(
+    (r) => r !== null && (r as Page).name !== undefined
+  ) as Array<Page>;
+  const generationErrors = results.filter(
+    (r) => r !== null && (r as PageGenerationError).msg !== undefined
+  ) as Array<Page>;
+  console.log(generationErrors);
 
   await generateNotFoundPage(buildDir, now);
   await generateIndexPage(buildDir, now, pages);
