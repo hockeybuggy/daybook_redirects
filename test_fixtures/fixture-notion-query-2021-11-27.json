@@ -1,0 +1,66 @@
+{
+  "object": "list",
+  "results": [
+    {
+      "object": "page",
+      "id": "d2576fe9-22b2-4556-a0d4-6e7d1f7c27d3",
+      "created_time": "2021-11-19T14:06:00.000Z",
+      "last_edited_time": "2021-11-28T12:29:00.000Z",
+      "cover": null,
+      "icon": {
+        "type": "emoji",
+        "emoji": "🌄"
+      },
+      "parent": {
+        "type": "database_id",
+        "database_id": "b244f8ad-073e-4715-89bf-bc25833852e0"
+      },
+      "archived": false,
+      "properties": {
+        "Date": {
+          "id": "S%60yb",
+          "type": "date",
+          "date": {
+            "start": "2021-11-27",
+            "end": null
+          }
+        },
+        "Date Rating": {
+          "id": "h%3FyN",
+          "type": "select",
+          "select": {
+            "id": "f095b29e-5d54-4046-ab63-f392a0cf461e",
+            "name": "✨✨✨✨",
+            "color": "blue"
+          }
+        },
+        "Name": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "2021-11-27",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "2021-11-27",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/2021-11-27-d2576fe922b24556a0d46e7d1f7c27d3"
+    }
+  ],
+  "next_cursor": null,
+  "has_more": false
+}
