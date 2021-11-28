@@ -30,7 +30,9 @@ describe("GenerateSiteService", () => {
   it("generates some files", async () => {
     const notion_client = new NotionClientDouble("fake_token");
     const service = new GenerateSiteService({
-      file_repo: () => {},
+      file_repo: (): null => {
+        return null;
+      },
       notion_client,
       today: new Date("2021-11-28"),
     });

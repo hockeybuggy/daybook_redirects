@@ -12,7 +12,9 @@ if (!notionToken) {
 
 const notion_client = new NotionClient(notionToken);
 
-const file_repo = () => {};
+const file_repo = (): null => {
+  return null;
+};
 
 const generate_site_service = new GenerateSiteService({
   notion_client,
