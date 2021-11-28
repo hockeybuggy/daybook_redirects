@@ -32,8 +32,11 @@ describe("GenerateSiteService", () => {
     const service = new GenerateSiteService({
       file_repo: () => {},
       notion_client,
+      today: new Date("2021-11-28"),
     });
 
     await service.generate();
+
+    // TODO there need to be assertions here.
   });
 });

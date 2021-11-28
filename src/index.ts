@@ -17,6 +17,7 @@ const file_repo = () => {};
 const generate_site_service = new GenerateSiteService({
   notion_client,
   file_repo,
+  today: new Date(),
 });
 
 generate_site_service.generate();

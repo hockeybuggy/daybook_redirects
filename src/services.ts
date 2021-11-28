@@ -27,9 +27,11 @@ const dayOfWeekMap = {
 
 class GenerateSiteService {
   notion: NotionClient;
+  today: Date;
 
-  constructor(deps: { file_repo: any; notion_client: any }) {
+  constructor(deps: { today: Date; file_repo: any; notion_client: any }) {
     this.notion = deps.notion_client;
+    this.today = deps.today;
   }
 
   fromBaseTemplate(now: Date, body: string) {
@@ -283,7 +285,7 @@ class GenerateSiteService {
   }
 
   async generate(): Promise<null> {
-    const now = new Date();
+    const now = this.today;
     console.log(`Running at: ${now}`);
 
     // const meResponse = await this.notion.users.me({});
