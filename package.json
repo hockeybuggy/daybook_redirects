@@ -24,8 +24,8 @@
   "scripts": {
     "build": "ts-node src/index.ts",
     "lint": "eslint \"**/*.ts*\"",
-    "format": "prettier --write \"*.ts*\"",
-    "check-format": "prettier --check \"*.ts*\"",
+    "format": "prettier --write \"src/*.ts*\"",
+    "check-format": "prettier --check \"src/*.ts*\"",
     "typecheck": "tsc -p . --skipLibCheck",
     "test": "jest",
     "clean": "rm -r node_modules build dist"
