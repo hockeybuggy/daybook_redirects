@@ -76,10 +76,12 @@ class GenerateSiteService {
 `;
   }
 
-  async generateNotFoundPage(buildDir: string, now: Date) {
-    const contents = this.fromBaseTemplate(
-      now,
-      `
+  async generateNotFoundPage(
+    buildDir: string,
+    now: Date,
+    daybookRootUrl: string | null
+  ) {
+    let inner = `
       <h1>Daybook Redirects - Not found</h1>
 
       <p>
@@ -87,9 +89,19 @@ class GenerateSiteService {
           Whoops? Something  wrong with the build?
         </a>
       </p>
-      );
-    `
-    );
+    `;
+    if (daybookRootUrl) {
+      inner =
+        inner +
+        `
+      <p>
+        <a href="${daybookRootUrl}">
+          Daybooks home page
+        </a>
+      </p>
+      `;
+    }
+    const contents = this.fromBaseTemplate(now, inner);
 
     console.log("Generating not-found page.");
     fs.writeFileSync(`${buildDir}/not-found.html`, contents);
@@ -98,12 +110,24 @@ class GenerateSiteService {
   async generateIndexPage(
     buildDir: string,
     now: Date,
+    daybookRootUrl: string,
     links: Array<{ name: string; url: string }>
   ) {
     const linksUl = links.reduce((acc, curr) => {
       const link = `<li><a href="${curr.url}">${curr.name}</a></li>\n`;
       return acc + link;
     }, "");
+
+    let daybookRootLink = "";
+    if (daybookRootUrl) {
+      daybookRootLink = `
+      <p>
+        <a href="${daybookRootUrl}">
+          Daybooks home page
+        </a>
+      </p>
+      `;
+    }
 
     const contents = this.fromBaseTemplate(
       now,
@@ -113,6 +137,8 @@ class GenerateSiteService {
       <ul>
         ${linksUl}
       </ul>
+
+      ${daybookRootLink}
     `
     );
     console.log("Generating index page.");
@@ -288,8 +314,19 @@ class GenerateSiteService {
     const now = this.today;
     console.log(`Running at: ${now}`);
 
+    // TODO drop this (consider moving the .users.me() example)
     // const meResponse = await this.notion.users.me({});
     // console.log(`User id: ${meResponse.id}`);
+
+    // Find the Notion database where all daybooks are kept
+    let daybookRootUrl = null;
+    const daybookRootPageQuery = await this.notion.searchByQuery("day books");
+    if (
+      daybookRootPageQuery.results &&
+      daybookRootPageQuery.results.length === 1
+    ) {
+      daybookRootUrl = daybookRootPageQuery.results[0].url;
+    }
 
     const buildDir = "./build";
     console.log(`Setting up build directory: ${buildDir}`);
@@ -315,8 +352,8 @@ class GenerateSiteService {
     ) as Array<Page>;
     console.log(generationErrors);
 
-    await this.generateNotFoundPage(buildDir, now);
-    await this.generateIndexPage(buildDir, now, pages);
+    await this.generateNotFoundPage(buildDir, now, daybookRootUrl);
+    await this.generateIndexPage(buildDir, now, daybookRootUrl, pages);
 
     console.log("Copying static files into build directory");
     fs.copySync("./static", buildDir);
