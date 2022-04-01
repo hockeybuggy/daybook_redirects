@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@notionhq/client": "^0.4.9",
+    "@notionhq/client": "^1.0.4",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^27.0.3",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
