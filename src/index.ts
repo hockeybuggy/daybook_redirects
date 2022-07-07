@@ -1,3 +1,4 @@
+import fs from "fs-extra";
 import NotionClient from "./clients/notion";
 import { GenerateSiteService } from "./services";
 
@@ -10,16 +11,12 @@ if (!notionToken) {
   process.exit(1);
 }
 
-const notion_client = new NotionClient(notionToken);
-
-const file_repo = (): null => {
-  return null;
-};
+const notionClient = new NotionClient(notionToken);
 
 const generate_site_service = new GenerateSiteService({
-  notion_client,
-  file_repo,
+  notionClient,
   today: new Date(),
+  fs: fs,
 });
 
 generate_site_service.generate();

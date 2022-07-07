@@ -1,6 +1,4 @@
-import fs from "fs-extra";
 import { addDays, format, formatISO9075, getISODay, subDays } from "date-fns";
-
 import NotionClient from "./clients/notion";
 
 interface Page {
@@ -11,6 +9,15 @@ interface Page {
 interface PageGenerationError {
   msg: string;
   error: Error;
+}
+
+// Exported for testing
+export interface FileInterface {
+  writeFileSync: (path: string, body: string) => void;
+  existsSync: (path: string) => boolean;
+  rmSync: (path: string, options: any) => void;
+  mkdirSync: (path: string) => void;
+  copySync: (path: string, otherPath: string) => void;
 }
 
 type Result<T> = T | PageGenerationError;
@@ -28,10 +35,12 @@ const dayOfWeekMap = {
 class GenerateSiteService {
   notion: NotionClient;
   today: Date;
+  fs: FileInterface;
 
-  constructor(deps: { today: Date; file_repo: any; notion_client: any }) {
-    this.notion = deps.notion_client;
+  constructor(deps: { today: Date; notionClient: NotionClient; fs: any }) {
+    this.notion = deps.notionClient;
     this.today = deps.today;
+    this.fs = deps.fs;
   }
 
   fromBaseTemplate(now: Date, body: string) {
@@ -104,7 +113,7 @@ class GenerateSiteService {
     const contents = this.fromBaseTemplate(now, inner);
 
     console.log("Generating not-found page.");
-    fs.writeFileSync(`${buildDir}/not-found.html`, contents);
+    this.fs.writeFileSync(`${buildDir}/not-found.html`, contents);
   }
 
   async generateIndexPage(
@@ -142,7 +151,7 @@ class GenerateSiteService {
     `
     );
     console.log("Generating index page.");
-    fs.writeFileSync(`${buildDir}/index.html`, contents);
+    this.fs.writeFileSync(`${buildDir}/index.html`, contents);
   }
 
   generateRedirectPage(name: string, targetUrl: string) {
@@ -173,7 +182,7 @@ class GenerateSiteService {
 
     const contents = this.generateRedirectPage(name, targetUrl);
 
-    fs.writeFileSync(`${buildDir}/${name}.html`, contents);
+    this.fs.writeFileSync(`${buildDir}/${name}.html`, contents);
   }
 
   async generateTodayPage(buildDir: string, now: Date): Promise<Result<Page>> {
@@ -330,10 +339,10 @@ class GenerateSiteService {
 
     const buildDir = "./build";
     console.log(`Setting up build directory: ${buildDir}`);
-    if (fs.existsSync(buildDir)) {
-      fs.rmSync(buildDir, { recursive: true });
+    if (this.fs.existsSync(buildDir)) {
+      this.fs.rmSync(buildDir, { recursive: true });
     }
-    fs.mkdirSync(buildDir);
+    this.fs.mkdirSync(buildDir);
 
     const results = [];
     results.push(await this.generateYesterdayPage(buildDir, now));
@@ -356,7 +365,7 @@ class GenerateSiteService {
     await this.generateIndexPage(buildDir, now, daybookRootUrl, pages);
 
     console.log("Copying static files into build directory");
-    fs.copySync("./static", buildDir);
+    this.fs.copySync("./static", buildDir);
 
     console.log("Done");
     return null;
