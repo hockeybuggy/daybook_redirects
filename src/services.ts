@@ -66,15 +66,13 @@ class GenerateSiteService {
     flex-direction: column;
     justify-content: space-between;
   }
-
-  main
 </style>
 
 </head>
 
 <body>
   <main>
-    ${body}
+${body}
   </main>
 
   <footer>
@@ -95,10 +93,9 @@ class GenerateSiteService {
 
       <p>
         <a href="https://app.netlify.com/sites/daybook-redirects/deploys?filter=main">
-          Whoops? Something  wrong with the build?
+          Whoops? Something wrong with the build?
         </a>
-      </p>
-    `;
+      </p>`;
     if (daybookRootUrl) {
       inner =
         inner +
@@ -107,8 +104,7 @@ class GenerateSiteService {
         <a href="${daybookRootUrl}">
           Daybooks home page
         </a>
-      </p>
-      `;
+      </p>`;
     }
     const contents = this.fromBaseTemplate(now, inner);
 
@@ -134,8 +130,7 @@ class GenerateSiteService {
         <a href="${daybookRootUrl}">
           Daybooks home page
         </a>
-      </p>
-      `;
+      </p>`;
     }
 
     const contents = this.fromBaseTemplate(

@@ -104,29 +104,25 @@ exports[`GenerateSiteService generates some files 1`] = `
     flex-direction: column;
     justify-content: space-between;
   }
-
-  main
 </style>
 
 </head>
 
 <body>
   <main>
-    
+
       <h1>Daybook Redirects - Not found</h1>
 
       <p>
         <a href=\\"https://app.netlify.com/sites/daybook-redirects/deploys?filter=main\\">
-          Whoops? Something  wrong with the build?
+          Whoops? Something wrong with the build?
         </a>
       </p>
-    
       <p>
         <a href=\\"https://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa\\">
           Daybooks home page
         </a>
       </p>
-      
   </main>
 
   <footer>
@@ -160,15 +156,13 @@ exports[`GenerateSiteService generates some files 1`] = `
     flex-direction: column;
     justify-content: space-between;
   }
-
-  main
 </style>
 
 </head>
 
 <body>
   <main>
-    
+
       <h1>Daybook Redirects</h1>
 
       <ul>
@@ -188,7 +182,6 @@ exports[`GenerateSiteService generates some files 1`] = `
           Daybooks home page
         </a>
       </p>
-      
     
   </main>
 
