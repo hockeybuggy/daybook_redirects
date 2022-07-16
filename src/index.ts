@@ -19,7 +19,7 @@ const timezone = "America/Halifax";
 // This may be either local time or UTC (e.g. CI uses UTC)
 const systemDate = new Date();
 console.log("System time", systemDate);
-const utcDate = zonedTimeToUtc("2018-09-01 18:01:36.386", timezone);
+const utcDate = zonedTimeToUtc(systemDate, timezone);
 
 const generate_site_service = new GenerateSiteService({
   notionClient,
