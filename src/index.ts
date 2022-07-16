@@ -1,6 +1,5 @@
 import fs from "fs-extra";
-import { parseISO } from "date-fns";
-import { zonedTimeToUtc, utcToZonedTime, format } from "date-fns-tz";
+import { Temporal } from "@js-temporal/polyfill";
 import NotionClient from "./clients/notion";
 import { GenerateSiteService } from "./services";
 
@@ -16,14 +15,12 @@ if (!notionToken) {
 const notionClient = new NotionClient(notionToken);
 
 const timezone = "America/Halifax";
-// This may be either local time or UTC (e.g. CI uses UTC)
-const systemDate = new Date();
-console.log("System time", systemDate);
-const utcDate = zonedTimeToUtc(systemDate, timezone);
+const localDateTime = Temporal.Now.zonedDateTimeISO(timezone);
+console.log("Local datetime", localDateTime);
 
 const generate_site_service = new GenerateSiteService({
   notionClient,
-  today: utcDate,
+  today: localDateTime,
   fs: fs,
 });
 

@@ -1,4 +1,4 @@
-import { addDays, format, formatISO9075, getISODay, subDays } from "date-fns";
+import { Temporal } from "@js-temporal/polyfill";
 import NotionClient from "./clients/notion";
 
 interface Page {
@@ -34,16 +34,21 @@ const dayOfWeekMap = {
 
 class GenerateSiteService {
   notion: NotionClient;
-  today: Date;
+  today: Temporal.ZonedDateTime;
   fs: FileInterface;
 
-  constructor(deps: { today: Date; notionClient: NotionClient; fs: any }) {
+  constructor(deps: {
+    today: Temporal.ZonedDateTime;
+    notionClient: NotionClient;
+    fs: any;
+  }) {
     this.notion = deps.notionClient;
     this.today = deps.today;
     this.fs = deps.fs;
   }
 
-  fromBaseTemplate(now: Date, body: string) {
+  fromBaseTemplate(now: Temporal.ZonedDateTime, body: string) {
+    const humanFormattedNow = now.toString({ timeZoneName: "never" });
     return `
 <!DOCTYPE html>
 
@@ -76,7 +81,7 @@ ${body}
   </main>
 
   <footer>
-    <p><em>Updated: ${formatISO9075(now)}</em></p>
+    <p><em>Updated: ${humanFormattedNow}</em></p>
   <footer>
 </body>
 </html>
@@ -85,7 +90,7 @@ ${body}
 
   async generateNotFoundPage(
     buildDir: string,
-    now: Date,
+    now: Temporal.ZonedDateTime,
     daybookRootUrl: string | null
   ) {
     let inner = `
@@ -114,7 +119,7 @@ ${body}
 
   async generateIndexPage(
     buildDir: string,
-    now: Date,
+    now: Temporal.ZonedDateTime,
     daybookRootUrl: string,
     links: Array<{ name: string; url: string }>
   ) {
@@ -180,9 +185,12 @@ ${body}
     this.fs.writeFileSync(`${buildDir}/${name}.html`, contents);
   }
 
-  async generateTodayPage(buildDir: string, now: Date): Promise<Result<Page>> {
+  async generateTodayPage(
+    buildDir: string,
+    now: Temporal.ZonedDateTime
+  ): Promise<Result<Page>> {
     const name = "today";
-    const todayStr = format(now, "yyyy-MM-dd");
+    const todayStr = now.toPlainDate().toString();
     try {
       await this.fetchAndWriteRedirect(buildDir, name, todayStr);
     } catch (e) {
@@ -194,12 +202,12 @@ ${body}
 
   async generateYesterdayPage(
     buildDir: string,
-    now: Date
+    now: Temporal.ZonedDateTime
   ): Promise<Result<Page>> {
     const name = "yesterday";
-    const todayStr = format(subDays(now, 1), "yyyy-MM-dd");
+    const yesterdayStr = now.subtract({ days: 1 }).toPlainDate().toString();
     try {
-      await this.fetchAndWriteRedirect(buildDir, name, todayStr);
+      await this.fetchAndWriteRedirect(buildDir, name, yesterdayStr);
     } catch (e) {
       return { msg: `Could not generate ${name} page`, error: e };
     }
@@ -209,12 +217,12 @@ ${body}
 
   async generateTomorrowPage(
     buildDir: string,
-    now: Date
+    now: Temporal.ZonedDateTime
   ): Promise<Result<Page>> {
     const name = "tomorrow";
-    const todayStr = format(addDays(now, 1), "yyyy-MM-dd");
+    const tomorrowStr = now.add({ days: 1 }).toPlainDate().toString();
     try {
-      await this.fetchAndWriteRedirect(buildDir, name, todayStr);
+      await this.fetchAndWriteRedirect(buildDir, name, tomorrowStr);
     } catch (e) {
       return { msg: `Could not generate ${name} page`, error: e };
     }
@@ -224,17 +232,13 @@ ${body}
 
   async generateNextMondayPage(
     buildDir: string,
-    now: Date
+    now: Temporal.ZonedDateTime
   ): Promise<Result<Page>> {
     const name = "next-monday";
-    const offsetDays = 7 - (getISODay(now) - dayOfWeekMap["Mon"]);
-    const day = addDays(now, offsetDays);
+    const offsetDays = 7 - (now.dayOfWeek - dayOfWeekMap["Mon"]);
+    const dayStr = now.add({ days: offsetDays }).toPlainDate().toString();
     try {
-      await this.fetchAndWriteRedirect(
-        buildDir,
-        name,
-        format(day, "yyyy-MM-dd")
-      );
+      await this.fetchAndWriteRedirect(buildDir, name, dayStr);
     } catch (e) {
       return { msg: `Could not generate ${name} page`, error: e };
     }
@@ -244,24 +248,20 @@ ${body}
 
   async generateThisWeekendPage(
     buildDir: string,
-    now: Date
+    now: Temporal.ZonedDateTime
   ): Promise<Result<Page>> {
     const name = "this-weekend";
     let offsetDays: number;
-    if (getISODay(now) === dayOfWeekMap["Sat"]) {
+    if (now.dayOfWeek === dayOfWeekMap["Sat"]) {
       offsetDays = 0;
-    } else if (getISODay(now) === dayOfWeekMap["Sun"]) {
+    } else if (now.dayOfWeek === dayOfWeekMap["Sun"]) {
       offsetDays = 1;
     } else {
-      offsetDays = 7 - (getISODay(now) - dayOfWeekMap["Sat"]);
+      offsetDays = 7 - (now.dayOfWeek - dayOfWeekMap["Sat"]);
     }
-    const day = addDays(now, offsetDays);
+    const dayStr = now.add({ days: offsetDays }).toPlainDate().toString();
     try {
-      await this.fetchAndWriteRedirect(
-        buildDir,
-        name,
-        format(day, "yyyy-MM-dd")
-      );
+      await this.fetchAndWriteRedirect(buildDir, name, dayStr);
     } catch (e) {
       return { msg: `Could not generate ${name} page`, error: e };
     }
@@ -271,25 +271,21 @@ ${body}
 
   async generateNextWeekendPage(
     buildDir: string,
-    now: Date
+    now: Temporal.ZonedDateTime
   ): Promise<Result<Page>> {
     const name = "next-weekend";
     if (
-      getISODay(now) !== dayOfWeekMap["Sat"] &&
-      getISODay(now) !== dayOfWeekMap["Sun"]
+      now.dayOfWeek !== dayOfWeekMap["Sat"] &&
+      now.dayOfWeek !== dayOfWeekMap["Sun"]
     ) {
       // This only generates if it's the weekend.
       return null;
     }
 
-    const offsetDays = 7 - (getISODay(now) - dayOfWeekMap["Sun"]);
-    const day = addDays(now, offsetDays);
+    const offsetDays = 7 - (now.dayOfWeek - dayOfWeekMap["Sun"]);
+    const dayStr = now.add({ days: offsetDays }).toPlainDate().toString();
     try {
-      await this.fetchAndWriteRedirect(
-        buildDir,
-        name,
-        format(day, "yyyy-MM-dd")
-      );
+      await this.fetchAndWriteRedirect(buildDir, name, dayStr);
     } catch (e) {
       return { msg: `Could not generate ${name} page`, error: e };
     }
@@ -297,16 +293,15 @@ ${body}
     return { name, url: `./${name}.html` };
   }
 
-  async generateLastFriday(buildDir: string, now: Date): Promise<Result<Page>> {
+  async generateLastFriday(
+    buildDir: string,
+    now: Temporal.ZonedDateTime
+  ): Promise<Result<Page>> {
     const name = "last-friday";
-    const offsetDays = -(getISODay(now) - dayOfWeekMap["Fri"]);
-    const day = addDays(now, offsetDays);
+    const offsetDays = -(now.dayOfWeek - dayOfWeekMap["Fri"]);
+    const dayStr = now.add({ days: offsetDays }).toPlainDate().toString();
     try {
-      await this.fetchAndWriteRedirect(
-        buildDir,
-        name,
-        format(day, "yyyy-MM-dd")
-      );
+      await this.fetchAndWriteRedirect(buildDir, name, dayStr);
     } catch (e) {
       return { msg: `Could not generate ${name} page`, error: e };
     }

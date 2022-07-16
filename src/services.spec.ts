@@ -1,6 +1,6 @@
 import fs from "fs-extra";
-import { parseISO } from "date-fns";
-import { GenerateSiteService, FileInterface } from "./services";
+import { Temporal } from "@js-temporal/polyfill";
+import { GenerateSiteService } from "./services";
 import NotionClient from "./clients/notion";
 
 class NotionClientDouble {
@@ -40,7 +40,14 @@ describe("GenerateSiteService", () => {
     };
     const service = new GenerateSiteService({
       notionClient: notionClient as unknown as NotionClient,
-      today: parseISO("2021-11-28T"),
+      today: Temporal.ZonedDateTime.from({
+        year: 2021,
+        month: 11,
+        day: 28,
+        hour: 5,
+        minute: 1,
+        timeZone: "America/Halifax",
+      }),
       fs: fsDouble,
     });
 
