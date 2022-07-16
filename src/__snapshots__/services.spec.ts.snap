@@ -1,11 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`GenerateSiteService generates some files 1`] = `
-[MockFunction] {
-  "calls": Array [
-    Array [
-      "./build/yesterday.html",
-      "
+Array [
+  "./build/yesterday.html",
+  "
 <!DOCTYPE html>
 <meta charset=\\"utf-8\\">
 <title>Redirecting to yesterday: https://www.notion.so/2021-11-26-e5f92c3eaa1a47dab45a77027a1c4d89</title>
@@ -13,10 +11,13 @@ exports[`GenerateSiteService generates some files 1`] = `
 <link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
 <link rel=\\"canonical\\" href=\\"https://www.notion.so/2021-11-26-e5f92c3eaa1a47dab45a77027a1c4d89\\">
 ",
-    ],
-    Array [
-      "./build/today.html",
-      "
+]
+`;
+
+exports[`GenerateSiteService generates some files 2`] = `
+Array [
+  "./build/today.html",
+  "
 <!DOCTYPE html>
 <meta charset=\\"utf-8\\">
 <title>Redirecting to today: https://www.notion.so/2021-11-27-d2576fe922b24556a0d46e7d1f7c27d3</title>
@@ -24,10 +25,13 @@ exports[`GenerateSiteService generates some files 1`] = `
 <link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
 <link rel=\\"canonical\\" href=\\"https://www.notion.so/2021-11-27-d2576fe922b24556a0d46e7d1f7c27d3\\">
 ",
-    ],
-    Array [
-      "./build/tomorrow.html",
-      "
+]
+`;
+
+exports[`GenerateSiteService generates some files 3`] = `
+Array [
+  "./build/tomorrow.html",
+  "
 <!DOCTYPE html>
 <meta charset=\\"utf-8\\">
 <title>Redirecting to tomorrow: https://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa</title>
@@ -35,10 +39,13 @@ exports[`GenerateSiteService generates some files 1`] = `
 <link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
 <link rel=\\"canonical\\" href=\\"https://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa\\">
 ",
-    ],
-    Array [
-      "./build/next-monday.html",
-      "
+]
+`;
+
+exports[`GenerateSiteService generates some files 4`] = `
+Array [
+  "./build/next-monday.html",
+  "
 <!DOCTYPE html>
 <meta charset=\\"utf-8\\">
 <title>Redirecting to next-monday: https://www.notion.so/2021-11-29-7c0b81ec814b4922b962f8239f4104c8</title>
@@ -46,10 +53,13 @@ exports[`GenerateSiteService generates some files 1`] = `
 <link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
 <link rel=\\"canonical\\" href=\\"https://www.notion.so/2021-11-29-7c0b81ec814b4922b962f8239f4104c8\\">
 ",
-    ],
-    Array [
-      "./build/this-weekend.html",
-      "
+]
+`;
+
+exports[`GenerateSiteService generates some files 5`] = `
+Array [
+  "./build/this-weekend.html",
+  "
 <!DOCTYPE html>
 <meta charset=\\"utf-8\\">
 <title>Redirecting to this-weekend: https://www.notion.so/2021-11-27-d2576fe922b24556a0d46e7d1f7c27d3</title>
@@ -57,10 +67,13 @@ exports[`GenerateSiteService generates some files 1`] = `
 <link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
 <link rel=\\"canonical\\" href=\\"https://www.notion.so/2021-11-27-d2576fe922b24556a0d46e7d1f7c27d3\\">
 ",
-    ],
-    Array [
-      "./build/next-weekend.html",
-      "
+]
+`;
+
+exports[`GenerateSiteService generates some files 6`] = `
+Array [
+  "./build/next-weekend.html",
+  "
 <!DOCTYPE html>
 <meta charset=\\"utf-8\\">
 <title>Redirecting to next-weekend: https://www.notion.so/2021-12-05-c26599490d44479baa3a3f46de4ab7f5</title>
@@ -68,10 +81,13 @@ exports[`GenerateSiteService generates some files 1`] = `
 <link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
 <link rel=\\"canonical\\" href=\\"https://www.notion.so/2021-12-05-c26599490d44479baa3a3f46de4ab7f5\\">
 ",
-    ],
-    Array [
-      "./build/last-friday.html",
-      "
+]
+`;
+
+exports[`GenerateSiteService generates some files 7`] = `
+Array [
+  "./build/last-friday.html",
+  "
 <!DOCTYPE html>
 <meta charset=\\"utf-8\\">
 <title>Redirecting to last-friday: https://www.notion.so/2021-11-26-e5f92c3eaa1a47dab45a77027a1c4d89</title>
@@ -79,10 +95,13 @@ exports[`GenerateSiteService generates some files 1`] = `
 <link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
 <link rel=\\"canonical\\" href=\\"https://www.notion.so/2021-11-26-e5f92c3eaa1a47dab45a77027a1c4d89\\">
 ",
-    ],
-    Array [
-      "./build/not-found.html",
-      "
+]
+`;
+
+exports[`GenerateSiteService generates some files 8`] = `
+Array [
+  "./build/not-found.html",
+  "
 <!DOCTYPE html>
 
 <html lang=\\"en\\">
@@ -131,10 +150,13 @@ exports[`GenerateSiteService generates some files 1`] = `
 </body>
 </html>
 ",
-    ],
-    Array [
-      "./build/index.html",
-      "
+]
+`;
+
+exports[`GenerateSiteService generates some files 9`] = `
+Array [
+  "./build/index.html",
+  "
 <!DOCTYPE html>
 
 <html lang=\\"en\\">
@@ -191,45 +213,5 @@ exports[`GenerateSiteService generates some files 1`] = `
 </body>
 </html>
 ",
-    ],
-  ],
-  "results": Array [
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-  ],
-}
+]
 `;
