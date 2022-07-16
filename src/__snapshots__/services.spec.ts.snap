@@ -215,3 +215,114 @@ Array [
 ",
 ]
 `;
+
+exports[`GenerateSiteService tollerates not being able to find 1`] = `
+Array [
+  "./build/not-found.html",
+  "
+<!DOCTYPE html>
+
+<html lang=\\"en\\">
+<head>
+<meta charset=\\"utf-8\\">
+<title>Daybook redirects - Not Found</title>
+<link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
+
+<style>
+  html {
+    height: 100%;
+  }
+
+  body {
+    height: 100%;
+
+    font-family: Courier, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+</style>
+
+</head>
+
+<body>
+  <main>
+
+      <h1>Daybook Redirects - Not found</h1>
+
+      <p>
+        <a href=\\"https://app.netlify.com/sites/daybook-redirects/deploys?filter=main\\">
+          Whoops? Something wrong with the build?
+        </a>
+      </p>
+      <p>
+        <a href=\\"https://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa\\">
+          Daybooks home page
+        </a>
+      </p>
+  </main>
+
+  <footer>
+    <p><em>Updated: 2022-07-16T05:01:00-03:00</em></p>
+  <footer>
+</body>
+</html>
+",
+]
+`;
+
+exports[`GenerateSiteService tollerates not being able to find 2`] = `
+Array [
+  "./build/index.html",
+  "
+<!DOCTYPE html>
+
+<html lang=\\"en\\">
+<head>
+<meta charset=\\"utf-8\\">
+<title>Daybook redirects - Not Found</title>
+<link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
+
+<style>
+  html {
+    height: 100%;
+  }
+
+  body {
+    height: 100%;
+
+    font-family: Courier, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+</style>
+
+</head>
+
+<body>
+  <main>
+
+      <h1>Daybook Redirects</h1>
+
+      <ul>
+        
+      </ul>
+
+      
+      <p>
+        <a href=\\"https://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa\\">
+          Daybooks home page
+        </a>
+      </p>
+    
+  </main>
+
+  <footer>
+    <p><em>Updated: 2022-07-16T05:01:00-03:00</em></p>
+  <footer>
+</body>
+</html>
+",
+]
+`;
