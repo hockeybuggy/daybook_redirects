@@ -19,7 +19,7 @@ jobs:
 
     - name: Check Types
       run: |
-        yarn run typecheck
+        yarn run typecheck && rm -r dist/
 
     - name: Test
       env:
