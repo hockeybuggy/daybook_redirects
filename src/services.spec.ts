@@ -55,7 +55,10 @@ describe("GenerateSiteService", () => {
 
     // Many different html pages are generate. By using this snapshot we can
     // see what is generated based on the fixture date we're using.
-    expect(fsDouble.writeFileSync).toMatchSnapshot();
+    expect(fsDouble.writeFileSync.mock.calls.length).toEqual(9);
+    fsDouble.writeFileSync.mock.calls.forEach((call) => {
+      expect(call).toMatchSnapshot();
+    });
 
     // Static files from the "static directory are copyied into the build directory"
     expect(fsDouble.copySync).toHaveBeenCalledWith("./static", "./build");
