@@ -166,7 +166,7 @@ ${body}
     // This works because the pages match the naming scheme of yyyy-MM-dd
     const dayBookSearchResponse = await this.notion.searchByQuery(dayStr);
 
-    console.log(dayBookSearchResponse);
+    console.log(dayBookSearchResponse.results[0]);
     // if (dayBookSearchResponse !== {}) {
     //   return;
     // }
