@@ -1,4 +1,3 @@
-// import fs from "fs-extra";
 import { Client } from "@notionhq/client";
 
 class NotionClient {
