@@ -1,4 +1,5 @@
 import fs from "fs-extra";
+import { parseISO } from "date-fns";
 import { GenerateSiteService, FileInterface } from "./services";
 import NotionClient from "./clients/notion";
 
@@ -39,7 +40,7 @@ describe("GenerateSiteService", () => {
     };
     const service = new GenerateSiteService({
       notionClient: notionClient as unknown as NotionClient,
-      today: new Date("2021-11-28"),
+      today: parseISO("2021-11-28T"),
       fs: fsDouble,
     });
 
