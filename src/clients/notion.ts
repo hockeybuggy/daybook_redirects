@@ -1,3 +1,4 @@
+// import fs from "fs-extra";
 import { Client } from "@notionhq/client";
 
 class NotionClient {
@@ -9,9 +10,12 @@ class NotionClient {
   }
 
   async searchByQuery(query: string): Promise<any> {
-    const result = await this.notion.search({ query });
+    const result = await this.notion.search({ query, page_size: 1 });
     // TODO clean up this fixture setup code
-    // fs.writeFileSync(`./build/fixture-notion-query-${query}.json`, JSON.stringify(result, null, 2));
+    // fs.writeFileSync(
+    //   `./build/fixture-notion-query-${query}.json`,
+    //   JSON.stringify(result, null, 2)
+    // );
     return result;
   }
 }
