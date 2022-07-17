@@ -2,6 +2,20 @@
 
 exports[`GenerateSiteService generates some files 1`] = `
 Array [
+  "./build/daybooks.html",
+  "
+<!DOCTYPE html>
+<meta charset=\\"utf-8\\">
+<title>Redirecting to daybooks: https://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa</title>
+<meta http-equiv=\\"refresh\\" content=\\"0; URL=https://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa\\">
+<link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
+<link rel=\\"canonical\\" href=\\"https://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa\\">
+",
+]
+`;
+
+exports[`GenerateSiteService generates some files 2`] = `
+Array [
   "./build/yesterday.html",
   "
 <!DOCTYPE html>
@@ -14,7 +28,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 2`] = `
+exports[`GenerateSiteService generates some files 3`] = `
 Array [
   "./build/today.html",
   "
@@ -28,7 +42,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 3`] = `
+exports[`GenerateSiteService generates some files 4`] = `
 Array [
   "./build/tomorrow.html",
   "
@@ -42,7 +56,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 4`] = `
+exports[`GenerateSiteService generates some files 5`] = `
 Array [
   "./build/next-monday.html",
   "
@@ -56,7 +70,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 5`] = `
+exports[`GenerateSiteService generates some files 6`] = `
 Array [
   "./build/this-weekend.html",
   "
@@ -70,7 +84,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 6`] = `
+exports[`GenerateSiteService generates some files 7`] = `
 Array [
   "./build/next-weekend.html",
   "
@@ -84,7 +98,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 7`] = `
+exports[`GenerateSiteService generates some files 8`] = `
 Array [
   "./build/last-friday.html",
   "
@@ -98,7 +112,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 8`] = `
+exports[`GenerateSiteService generates some files 9`] = `
 Array [
   "./build/not-found.html",
   "
@@ -153,7 +167,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 9`] = `
+exports[`GenerateSiteService generates some files 10`] = `
 Array [
   "./build/index.html",
   "
@@ -188,7 +202,8 @@ Array [
       <h1>Daybook Redirects</h1>
 
       <ul>
-        <li><a href=\\"./yesterday.html\\">yesterday</a></li>
+        <li><a href=\\"./daybooks.html\\">daybooks</a></li>
+<li><a href=\\"./yesterday.html\\">yesterday</a></li>
 <li><a href=\\"./today.html\\">today</a></li>
 <li><a href=\\"./tomorrow.html\\">tomorrow</a></li>
 <li><a href=\\"./next-monday.html\\">next-monday</a></li>
@@ -218,6 +233,20 @@ Array [
 
 exports[`GenerateSiteService tollerates not being able to find 1`] = `
 Array [
+  "./build/daybooks.html",
+  "
+<!DOCTYPE html>
+<meta charset=\\"utf-8\\">
+<title>Redirecting to daybooks: https://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa</title>
+<meta http-equiv=\\"refresh\\" content=\\"0; URL=https://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa\\">
+<link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
+<link rel=\\"canonical\\" href=\\"https://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa\\">
+",
+]
+`;
+
+exports[`GenerateSiteService tollerates not being able to find 2`] = `
+Array [
   "./build/yesterday.html",
   "
 <!DOCTYPE html>
@@ -230,7 +259,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService tollerates not being able to find 2`] = `
+exports[`GenerateSiteService tollerates not being able to find 3`] = `
 Array [
   "./build/last-friday.html",
   "
@@ -244,7 +273,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService tollerates not being able to find 3`] = `
+exports[`GenerateSiteService tollerates not being able to find 4`] = `
 Array [
   "./build/not-found.html",
   "
@@ -299,7 +328,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService tollerates not being able to find 4`] = `
+exports[`GenerateSiteService tollerates not being able to find 5`] = `
 Array [
   "./build/index.html",
   "
@@ -334,7 +363,8 @@ Array [
       <h1>Daybook Redirects</h1>
 
       <ul>
-        <li><a href=\\"./yesterday.html\\">yesterday</a></li>
+        <li><a href=\\"./daybooks.html\\">daybooks</a></li>
+<li><a href=\\"./yesterday.html\\">yesterday</a></li>
 <li><a href=\\"./last-friday.html\\">last-friday</a></li>
 
       </ul>
