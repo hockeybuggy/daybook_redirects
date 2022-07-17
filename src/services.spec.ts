@@ -107,7 +107,7 @@ describe("GenerateSiteService", () => {
 
     // Many different html pages are generate. By using this snapshot we can
     // see what is generated based on the fixture date we're using.
-    expect(fsDouble.writeFileSync.mock.calls.length).toEqual(2);
+    expect(fsDouble.writeFileSync.mock.calls.length).toEqual(4);
     fsDouble.writeFileSync.mock.calls.forEach((call) => {
       expect(call).toMatchSnapshot();
     });
