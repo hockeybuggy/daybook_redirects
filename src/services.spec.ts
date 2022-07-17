@@ -59,7 +59,7 @@ describe("GenerateSiteService", () => {
 
     // Many different html pages are generate. By using this snapshot we can
     // see what is generated based on the fixture date we're using.
-    expect(fsDouble.writeFileSync.mock.calls.length).toEqual(9);
+    expect(fsDouble.writeFileSync.mock.calls.length).toEqual(10);
     fsDouble.writeFileSync.mock.calls.forEach((call) => {
       expect(call).toMatchSnapshot();
     });
@@ -107,7 +107,7 @@ describe("GenerateSiteService", () => {
 
     // Many different html pages are generate. By using this snapshot we can
     // see what is generated based on the fixture date we're using.
-    expect(fsDouble.writeFileSync.mock.calls.length).toEqual(4);
+    expect(fsDouble.writeFileSync.mock.calls.length).toEqual(5);
     fsDouble.writeFileSync.mock.calls.forEach((call) => {
       expect(call).toMatchSnapshot();
     });

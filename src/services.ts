@@ -194,6 +194,17 @@ ${body}
     this.fs.writeFileSync(`${buildDir}/${name}.html`, contents);
   }
 
+  async generateDaybooksPage(buildDir: string, url: string) {
+    const name = "daybooks";
+    console.log(`Generating ${name} page`);
+
+    const contents = this.generateRedirectPage(name, url);
+
+    this.fs.writeFileSync(`${buildDir}/${name}.html`, contents);
+
+    return { name, url: `./${name}.html` };
+  }
+
   async generateTodayPage(
     buildDir: string,
     now: Temporal.ZonedDateTime
@@ -344,6 +355,7 @@ ${body}
     this.fs.mkdirSync(buildDir);
 
     const results = [];
+    results.push(await this.generateDaybooksPage(buildDir, daybookRootUrl));
     results.push(await this.generateYesterdayPage(buildDir, now));
     results.push(await this.generateTodayPage(buildDir, now));
     results.push(await this.generateTomorrowPage(buildDir, now));
