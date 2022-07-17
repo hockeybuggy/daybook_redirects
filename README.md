@@ -118,3 +118,18 @@ There is a "build" workflow that runs one a day.
 Add a new New repository secret:
   - name: NETLIFY_BUILD_HOOK
   - value: <build hook url>
+
+
+
+## What bookmarks to I setup to work with this
+
+I primarily used these daybook redirects via bookmarks with keywords setup.
+This means that for example I could type "td" and see "today"'s daybook. These
+are what I setup:
+
+| Page      | Keyword | Url                                                 |
+|-----------|---------|-----------------------------------------------------|
+| Today     | td      | https://daybook-redirects.hockeybuggy.com/today     |
+| Yesterday | yd      | https://daybook-redirects.hockeybuggy.com/yesterday |
+| Tomorrow  | tw      | https://daybook-redirects.hockeybuggy.com/tomorrow  |
+| Daybook   | db      | https://daybook-redirects.hockeybuggy.com/daybooks  |
