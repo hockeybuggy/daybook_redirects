@@ -171,12 +171,21 @@ ${body}
     // This works because the pages match the naming scheme of yyyy-MM-dd
     const dayBookSearchResponse = await this.notion.searchByQuery(dayStr);
 
-    console.log("search result", dayBookSearchResponse.results[0]);
+    // console.log("search result", dayBookSearchResponse.results[0]);
+    console.log("search result title");
 
-    if (dayBookSearchResponse.results.length !== 1) {
-      throw Error(`Could not find result for ${dayStr}`);
+    if (dayBookSearchResponse.results.length === 0) {
+      throw Error(`Found no results for ${dayStr}`);
     }
-    const targetUrl = dayBookSearchResponse.results[0].url;
+
+    const selectedResult = dayBookSearchResponse.results.find((result: any) => {
+      return dayStr === result.properties.Name.title[0].plain_text;
+    });
+
+    if (!selectedResult) {
+      throw Error(`Could not find result with title ${dayStr} in results`);
+    }
+    const targetUrl = selectedResult.url;
 
     const contents = this.generateRedirectPage(name, targetUrl);
 

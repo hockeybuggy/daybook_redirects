@@ -218,6 +218,34 @@ Array [
 
 exports[`GenerateSiteService tollerates not being able to find 1`] = `
 Array [
+  "./build/yesterday.html",
+  "
+<!DOCTYPE html>
+<meta charset=\\"utf-8\\">
+<title>Redirecting to yesterday: https://www.notion.so/2022-07-15-ab6a52697f7847edb770cf68f80da574</title>
+<meta http-equiv=\\"refresh\\" content=\\"0; URL=https://www.notion.so/2022-07-15-ab6a52697f7847edb770cf68f80da574\\">
+<link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
+<link rel=\\"canonical\\" href=\\"https://www.notion.so/2022-07-15-ab6a52697f7847edb770cf68f80da574\\">
+",
+]
+`;
+
+exports[`GenerateSiteService tollerates not being able to find 2`] = `
+Array [
+  "./build/last-friday.html",
+  "
+<!DOCTYPE html>
+<meta charset=\\"utf-8\\">
+<title>Redirecting to last-friday: https://www.notion.so/2022-07-15-ab6a52697f7847edb770cf68f80da574</title>
+<meta http-equiv=\\"refresh\\" content=\\"0; URL=https://www.notion.so/2022-07-15-ab6a52697f7847edb770cf68f80da574\\">
+<link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
+<link rel=\\"canonical\\" href=\\"https://www.notion.so/2022-07-15-ab6a52697f7847edb770cf68f80da574\\">
+",
+]
+`;
+
+exports[`GenerateSiteService tollerates not being able to find 3`] = `
+Array [
   "./build/not-found.html",
   "
 <!DOCTYPE html>
@@ -271,7 +299,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService tollerates not being able to find 2`] = `
+exports[`GenerateSiteService tollerates not being able to find 4`] = `
 Array [
   "./build/index.html",
   "
@@ -306,7 +334,9 @@ Array [
       <h1>Daybook Redirects</h1>
 
       <ul>
-        
+        <li><a href=\\"./yesterday.html\\">yesterday</a></li>
+<li><a href=\\"./last-friday.html\\">last-friday</a></li>
+
       </ul>
 
       
