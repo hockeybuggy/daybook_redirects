@@ -170,7 +170,12 @@ ${body}
 `;
   }
 
-  async fetchAndWriteRedirect(buildDir: string, name: string, dayStr: string) {
+  async fetchAndWriteRedirect(
+    buildDir: string,
+    name: string,
+    dayStr: string,
+    options?: { mobilePage: boolean }
+  ) {
     console.log(`Generating ${name} page: ${dayStr}`);
 
     // This works because the pages match the naming scheme of yyyy-MM-dd
@@ -190,8 +195,13 @@ ${body}
     const targetUrl = selectedResult.url;
 
     const contents = this.generateRedirectPage(name, targetUrl);
-
     this.fs.writeFileSync(`${buildDir}/${name}.html`, contents);
+
+    if (options && options.mobilePage) {
+      const mobileUrl = targetUrl.replace("https://", "notion://");
+      const contents = this.generateRedirectPage(name, mobileUrl);
+      this.fs.writeFileSync(`${buildDir}/${name}-mobile.html`, contents);
+    }
   }
 
   async generateDaybooksPage(buildDir: string, url: string) {
@@ -202,28 +212,33 @@ ${body}
 
     this.fs.writeFileSync(`${buildDir}/${name}.html`, contents);
 
-    return { name, url: `./${name}.html` };
+    return [{ name, url: `./${name}.html` }];
   }
 
   async generateTodayPage(
     buildDir: string,
     now: Temporal.ZonedDateTime
-  ): Promise<Result<Page>> {
+  ): Promise<Result<Array<Page>>> {
     const name = "today";
     const todayStr = now.toPlainDate().toString();
     try {
-      await this.fetchAndWriteRedirect(buildDir, name, todayStr);
+      await this.fetchAndWriteRedirect(buildDir, name, todayStr, {
+        mobilePage: true,
+      });
     } catch (e) {
       return { msg: `Could not generate ${name} page`, error: e };
     }
 
-    return { name, url: `./${name}.html` };
+    return [
+      { name, url: `./${name}.html` },
+      { name, url: `./${name}-mobile.html` },
+    ];
   }
 
   async generateYesterdayPage(
     buildDir: string,
     now: Temporal.ZonedDateTime
-  ): Promise<Result<Page>> {
+  ): Promise<Result<Array<Page>>> {
     const name = "yesterday";
     const yesterdayStr = now.subtract({ days: 1 }).toPlainDate().toString();
     try {
@@ -232,13 +247,13 @@ ${body}
       return { msg: `Could not generate ${name} page`, error: e };
     }
 
-    return { name, url: `./${name}.html` };
+    return [{ name, url: `./${name}.html` }];
   }
 
   async generateTomorrowPage(
     buildDir: string,
     now: Temporal.ZonedDateTime
-  ): Promise<Result<Page>> {
+  ): Promise<Result<Array<Page>>> {
     const name = "tomorrow";
     const tomorrowStr = now.add({ days: 1 }).toPlainDate().toString();
     try {
@@ -247,13 +262,13 @@ ${body}
       return { msg: `Could not generate ${name} page`, error: e };
     }
 
-    return { name, url: `./${name}.html` };
+    return [{ name, url: `./${name}.html` }];
   }
 
   async generateNextMondayPage(
     buildDir: string,
     now: Temporal.ZonedDateTime
-  ): Promise<Result<Page>> {
+  ): Promise<Result<Array<Page>>> {
     const name = "next-monday";
     const offsetDays = 7 - (now.dayOfWeek - dayOfWeekMap["Mon"]);
     const dayStr = now.add({ days: offsetDays }).toPlainDate().toString();
@@ -263,13 +278,13 @@ ${body}
       return { msg: `Could not generate ${name} page`, error: e };
     }
 
-    return { name, url: `./${name}.html` };
+    return [{ name, url: `./${name}.html` }];
   }
 
   async generateThisWeekendPage(
     buildDir: string,
     now: Temporal.ZonedDateTime
-  ): Promise<Result<Page>> {
+  ): Promise<Result<Array<Page>>> {
     const name = "this-weekend";
     let offsetDays: number;
     if (now.dayOfWeek === dayOfWeekMap["Sat"]) {
@@ -286,13 +301,13 @@ ${body}
       return { msg: `Could not generate ${name} page`, error: e };
     }
 
-    return { name, url: `./${name}.html` };
+    return [{ name, url: `./${name}.html` }];
   }
 
   async generateNextWeekendPage(
     buildDir: string,
     now: Temporal.ZonedDateTime
-  ): Promise<Result<Page>> {
+  ): Promise<Result<Array<Page>>> {
     const name = "next-weekend";
     if (
       now.dayOfWeek !== dayOfWeekMap["Sat"] &&
@@ -310,13 +325,13 @@ ${body}
       return { msg: `Could not generate ${name} page`, error: e };
     }
 
-    return { name, url: `./${name}.html` };
+    return [{ name, url: `./${name}.html` }];
   }
 
   async generateLastFriday(
     buildDir: string,
     now: Temporal.ZonedDateTime
-  ): Promise<Result<Page>> {
+  ): Promise<Result<Array<Page>>> {
     const name = "last-friday";
     const offsetDays = -(now.dayOfWeek - dayOfWeekMap["Fri"]);
     const dayStr = now.add({ days: offsetDays }).toPlainDate().toString();
@@ -326,7 +341,7 @@ ${body}
       return { msg: `Could not generate ${name} page`, error: e };
     }
 
-    return { name, url: `./${name}.html` };
+    return [{ name, url: `./${name}.html` }];
   }
 
   async generate(): Promise<null> {
@@ -364,12 +379,16 @@ ${body}
     results.push(await this.generateNextWeekendPage(buildDir, now));
     results.push(await this.generateLastFriday(buildDir, now));
 
-    const pages = results.filter(
-      (r) => r !== null && (r as Page).name !== undefined
-    ) as Array<Page>;
-    const generationErrors = results.filter(
-      (r) => r !== null && (r as PageGenerationError).msg !== undefined
-    ) as Array<Page>;
+    const pages = results
+      .flat()
+      .filter(
+        (r) => r !== null && (r as Page).name !== undefined
+      ) as Array<Page>;
+    const generationErrors = results
+      .flat()
+      .filter(
+        (r) => r !== null && (r as PageGenerationError).msg !== undefined
+      ) as Array<Page>;
     console.log(generationErrors);
 
     await this.generateNotFoundPage(buildDir, now, daybookRootUrl);
