@@ -44,6 +44,20 @@ Array [
 
 exports[`GenerateSiteService generates some files 4`] = `
 Array [
+  "./build/today-mobile.html",
+  "
+<!DOCTYPE html>
+<meta charset=\\"utf-8\\">
+<title>Redirecting to today: notion://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa</title>
+<meta http-equiv=\\"refresh\\" content=\\"0; URL=notion://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa\\">
+<link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"favicon.png\\"/>
+<link rel=\\"canonical\\" href=\\"notion://www.notion.so/2021-11-28-9ff830c9e65141bba22b42222913d3aa\\">
+",
+]
+`;
+
+exports[`GenerateSiteService generates some files 5`] = `
+Array [
   "./build/tomorrow.html",
   "
 <!DOCTYPE html>
@@ -56,7 +70,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 5`] = `
+exports[`GenerateSiteService generates some files 6`] = `
 Array [
   "./build/next-monday.html",
   "
@@ -70,7 +84,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 6`] = `
+exports[`GenerateSiteService generates some files 7`] = `
 Array [
   "./build/this-weekend.html",
   "
@@ -84,7 +98,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 7`] = `
+exports[`GenerateSiteService generates some files 8`] = `
 Array [
   "./build/next-weekend.html",
   "
@@ -98,7 +112,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 8`] = `
+exports[`GenerateSiteService generates some files 9`] = `
 Array [
   "./build/last-friday.html",
   "
@@ -112,7 +126,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 9`] = `
+exports[`GenerateSiteService generates some files 10`] = `
 Array [
   "./build/not-found.html",
   "
@@ -167,7 +181,7 @@ Array [
 ]
 `;
 
-exports[`GenerateSiteService generates some files 10`] = `
+exports[`GenerateSiteService generates some files 11`] = `
 Array [
   "./build/index.html",
   "
@@ -205,6 +219,7 @@ Array [
         <li><a href=\\"./daybooks.html\\">daybooks</a></li>
 <li><a href=\\"./yesterday.html\\">yesterday</a></li>
 <li><a href=\\"./today.html\\">today</a></li>
+<li><a href=\\"./today-mobile.html\\">today</a></li>
 <li><a href=\\"./tomorrow.html\\">tomorrow</a></li>
 <li><a href=\\"./next-monday.html\\">next-monday</a></li>
 <li><a href=\\"./this-weekend.html\\">this-weekend</a></li>
