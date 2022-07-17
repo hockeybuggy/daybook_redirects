@@ -19,6 +19,7 @@ class NotionClient {
 
   async searchByQuery(query: string): Promise<any> {
     const result = await this.notion.search({ query, page_size: PAGE_SIZE });
+
     if (CAPTURE_SNAPSHOT) {
       fs.writeFileSync(
         `./build/fixture-notion-query-${query}.json`,

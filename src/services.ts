@@ -47,7 +47,11 @@ class GenerateSiteService {
     this.fs = deps.fs;
   }
 
-  fromBaseTemplate(now: Temporal.ZonedDateTime, body: string) {
+  fromBaseTemplate(
+    now: Temporal.ZonedDateTime,
+    title: null | string,
+    body: string
+  ) {
     const humanFormattedNow = now.toString({ timeZoneName: "never" });
     return `
 <!DOCTYPE html>
@@ -55,7 +59,7 @@ class GenerateSiteService {
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Daybook redirects - Not Found</title>
+<title>Daybook redirects${title ? ` - ${title}` : ""}</title>
 <link rel="shortcut icon" type="image/png" href="favicon.png"/>
 
 <style>
@@ -111,7 +115,7 @@ ${body}
         </a>
       </p>`;
     }
-    const contents = this.fromBaseTemplate(now, inner);
+    const contents = this.fromBaseTemplate(now, "Not found", inner);
 
     console.log("Generating not-found page.");
     this.fs.writeFileSync(`${buildDir}/not-found.html`, contents);
@@ -140,6 +144,7 @@ ${body}
 
     const contents = this.fromBaseTemplate(
       now,
+      null,
       `
       <h1>Daybook Redirects</h1>
 
@@ -170,9 +175,6 @@ ${body}
 
     // This works because the pages match the naming scheme of yyyy-MM-dd
     const dayBookSearchResponse = await this.notion.searchByQuery(dayStr);
-
-    // console.log("search result", dayBookSearchResponse.results[0]);
-    console.log("search result title");
 
     if (dayBookSearchResponse.results.length === 0) {
       throw Error(`Found no results for ${dayStr}`);
