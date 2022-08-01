@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@js-temporal/polyfill": "^0.4.1",
+    "@js-temporal/polyfill": "^0.4.2",
     "@notionhq/client": "^1.0.4",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^27.0.3",
