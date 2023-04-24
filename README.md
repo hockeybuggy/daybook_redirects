@@ -7,8 +7,8 @@ daily task list "system"). I then use bookmark shortcuts the generated pages
 and use them to quickly get to "today's daybook" or "the end of last week's
 daybook" (e.g. `ctrl+n, type: td<enter>` to go to today's) 
 
-My notion Workspace is and will remain a private
-space, but this project of redirects should be safe to make public.
+My notion Workspace is and will remain a private space, but this project of
+redirects should be safe to make public.
 
 
 ## What does this do
