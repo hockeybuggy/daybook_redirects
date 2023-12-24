@@ -186,6 +186,9 @@ ${body}
     }
 
     const selectedResult = dayBookSearchResponse.results.find((result: any) => {
+      if (!result.properties.Name) {
+        return false;
+      }
       return dayStr === result.properties.Name.title[0].plain_text;
     });
 
